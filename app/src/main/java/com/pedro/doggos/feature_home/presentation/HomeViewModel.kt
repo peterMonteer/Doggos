@@ -1,4 +1,4 @@
-package com.pedro.doggos.ui.home
+package com.pedro.doggos.feature_home.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

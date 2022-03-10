@@ -1,4 +1,4 @@
-package com.pedro.doggos.ui.home
+package com.pedro.doggos.feature_home.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater

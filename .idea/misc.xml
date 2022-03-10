@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-anydpi/ic_search_black.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2814814814814815" />
