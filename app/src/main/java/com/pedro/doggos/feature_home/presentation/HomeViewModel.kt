@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.pedro.doggos.core.presentation.BaseViewModel
+import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 import com.pedro.doggos.feature_home.domain.use_case.GetBreedImages
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,9 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getBreedImages: GetBreedImages
-) : ViewModel() {
+) : BaseViewModel() {
 
-    var compositeDisposable = CompositeDisposable()
+    sealed class State: UIState {
+        class GetImagesSuccess(val list: List<BreedImage>): State()
+    }
 
     init {
         getBreedImages()
@@ -42,6 +46,7 @@ class HomeViewModel @Inject constructor(
     private fun onSuccess(list: List<BreedImage>){
         Log.d("Success", "Great")
         Log.d("Success", list.toString())
+        state.value = State.GetImagesSuccess(list)
     }
 
     private fun onError(throwable: Throwable) {
