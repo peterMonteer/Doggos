@@ -41,6 +41,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onSuccess(list: List<BreedImage>){
         Log.d("Success", "Great")
+        Log.d("Success", list.toString())
     }
 
     private fun onError(throwable: Throwable) {

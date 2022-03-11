@@ -6,6 +6,10 @@ plugins {
 }
 
 android {
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
     compileSdk 31
 
     defaultConfig {
@@ -15,6 +19,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "BASE_URL", "\"https://api.thedogapi.com/v1/\""
+        buildConfigField "String", "API_KEY", properties.getProperty('api_key')
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

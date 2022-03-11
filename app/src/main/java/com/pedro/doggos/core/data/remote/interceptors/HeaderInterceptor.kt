@@ -1,5 +1,6 @@
 package com.pedro.doggos.core.data.remote.interceptors
 
+import com.pedro.doggos.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -19,7 +20,7 @@ class HeaderInterceptor: Interceptor {
         val builder = chain.request().newBuilder()
         builder.addHeader("Cache-Control", "no")
         builder.addHeader("Accept", "application/json")
-        builder.addHeader("x-api-key",  "")
+        builder.addHeader("x-api-key",  BuildConfig.API_KEY)
 
         return chain.proceed(builder.build())
     }
