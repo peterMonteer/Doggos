@@ -15,7 +15,7 @@ interface BreedImagesService {
      */
 
     @GET("images/search")
-    fun getBreedImages(@Query("order") order: String = "RANDOM",
+    fun getBreedImages(@Query("order") order: String,
                        @Query("limit") limit: Int = 20,
                        @Query("page") page: Int = 0): Single<List<BreedImageDto>>
 

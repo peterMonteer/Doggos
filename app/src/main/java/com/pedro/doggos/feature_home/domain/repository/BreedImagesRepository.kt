@@ -5,5 +5,5 @@ import io.reactivex.Single
 
 interface BreedImagesRepository {
 
-    fun getBreedImages(): Single<List<BreedImage>>
+    fun getBreedImages(order: String): Single<List<BreedImage>>
 }

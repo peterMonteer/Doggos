@@ -38,12 +38,17 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val layoutButton = binding.layoutButton
+        val orderButton = binding.orderButton
         recyclerView= binding.recyclerView
 
         val gridLayoutManager = GridLayoutManager(context,1)
 
         layoutButton.setOnClickListener {
             gridLayoutManager.spanCount = if (gridLayoutManager.spanCount == 1) 2 else 1
+        }
+
+        orderButton.setOnClickListener {
+            viewModel.getImages()
         }
 
         recyclerView= binding.recyclerView

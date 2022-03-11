@@ -8,7 +8,7 @@ class GetBreedImages (
     private val repository: BreedImagesRepository
         ) {
 
-    operator fun invoke(): Single<List<BreedImage>> {
-        return repository.getBreedImages()
+    operator fun invoke(order: String = "RANDOM"): Single<List<BreedImage>> {
+        return repository.getBreedImages(order)
     }
 }

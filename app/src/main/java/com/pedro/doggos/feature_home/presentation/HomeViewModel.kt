@@ -25,6 +25,9 @@ class HomeViewModel @Inject constructor(
         class GetImagesSuccess(val list: List<BreedImage>): State()
     }
 
+    private val orderQueryList = listOf("ASC", "DESC", "RANDOM")
+    private var previousOrderQuery = ""
+
     init {
         getBreedImages()
             .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
@@ -33,10 +36,22 @@ class HomeViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    fun getImages() {
+        val query = if (previousOrderQuery.isEmpty()) {
+            orderQueryList[0]
+        } else {
+            val position = orderQueryList.indexOf(previousOrderQuery)
+            val newQueryPosition = if (position + 1 > 2) 0 else position + 1
+            orderQueryList[newQueryPosition]
+        }
+        getBreedImages(query)
+            .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+            .observeOn(AndroidSchedulers.mainThread())
+            .doFinally { previousOrderQuery = query }
+            .subscribe(::onSuccess, ::onError)
+            .addTo(compositeDisposable)
+
     }
-    val text: LiveData<String> = _text
 
     override fun onCleared() {
         compositeDisposable.clear()
@@ -44,8 +59,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccess(list: List<BreedImage>){
-        Log.d("Success", "Great")
-        Log.d("Success", list.toString())
         state.value = State.GetImagesSuccess(list)
     }
 
