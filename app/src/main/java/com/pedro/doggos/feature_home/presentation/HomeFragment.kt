@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pedro.doggos.databinding.FragmentHomeBinding
@@ -36,9 +37,17 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val layoutButton = binding.layoutButton
         recyclerView= binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
 
+        val gridLayoutManager = GridLayoutManager(context,1)
+
+        layoutButton.setOnClickListener {
+            gridLayoutManager.spanCount = if (gridLayoutManager.spanCount == 1) 2 else 1
+        }
+
+        recyclerView= binding.recyclerView
+        recyclerView.layoutManager = gridLayoutManager
 
         observeViewStates()
         return root

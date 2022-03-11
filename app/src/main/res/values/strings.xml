@@ -3,4 +3,6 @@
     <string name="title_home">Dogs</string>
     <string name="title_search">Search</string>
     <string name="dog_breed_image">Dog breed image</string>
+    <string name="layout">Layout</string>
+    <string name="order">Order</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.pedro.doggos.feature_home.presentation
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,9 @@ class BreedImageAdapter(
     }
 
     override fun onBindViewHolder(holder: BreedImageAdapter.ViewHolder, position: Int) {
-        holder.breedName.text = breedImageList[position].breeds[0]?.name
+        if (breedImageList[position].breeds.isNotEmpty()){
+            holder.breedName.text = breedImageList[position].breeds[0].name
+        }
         Picasso.get().load(breedImageList[position].url).into(holder.breedImage)
     }
 
