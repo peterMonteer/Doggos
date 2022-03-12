@@ -2,16 +2,14 @@ package com.pedro.doggos.feature_home.presentation
 
 import android.os.AsyncTask
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
 import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 import com.pedro.doggos.feature_home.domain.use_case.GetBreedImages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -22,18 +20,16 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     sealed class State: UIState {
-        class GetImagesSuccess(val list: List<BreedImage>): State()
+        object GetImagesSuccess : State()
     }
 
     private val orderQueryList = listOf("ASC", "DESC", "RANDOM")
     private var previousOrderQuery = ""
 
+    var breedImageList: MutableLiveData<PagingData<BreedImage>> = MutableLiveData()
+
     init {
-        getBreedImages()
-            .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onSuccess, ::onError)
-            .addTo(compositeDisposable)
+        getImages()
     }
 
     fun getImages() {
@@ -47,10 +43,10 @@ class HomeViewModel @Inject constructor(
         getBreedImages(query)
             .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
             .observeOn(AndroidSchedulers.mainThread())
-            .doFinally { previousOrderQuery = query }
             .subscribe(::onSuccess, ::onError)
             .addTo(compositeDisposable)
 
+        previousOrderQuery = query
     }
 
     override fun onCleared() {
@@ -58,8 +54,9 @@ class HomeViewModel @Inject constructor(
         super.onCleared()
     }
 
-    private fun onSuccess(list: List<BreedImage>){
-        state.value = State.GetImagesSuccess(list)
+    private fun onSuccess(list: PagingData<BreedImage>){
+        breedImageList.postValue(list)
+        state.value = State.GetImagesSuccess
     }
 
     private fun onError(throwable: Throwable) {

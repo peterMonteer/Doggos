@@ -2,6 +2,7 @@ package com.pedro.doggos.feature_home.data.remote.service
 
 import com.pedro.doggos.feature_home.data.remote.dto.BreedImageDto
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
@@ -17,6 +18,6 @@ interface BreedImagesService {
     @GET("images/search")
     fun getBreedImages(@Query("order") order: String,
                        @Query("limit") limit: Int = 20,
-                       @Query("page") page: Int = 0): Single<List<BreedImageDto>>
+                       @Query("page") page: Int = 0): Single<Response<List<BreedImageDto>>>
 
 }
