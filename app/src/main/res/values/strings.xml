@@ -5,4 +5,7 @@
     <string name="dog_breed_image">Dog breed image</string>
     <string name="layout">Layout</string>
     <string name="order">Order</string>
+    <string name="name">Name:</string>
+    <string name="group">Group:</string>
+    <string name="origin">Origin:</string>
 </resources>

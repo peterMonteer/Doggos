@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
         val layoutButton = binding.layoutButton
         val orderButton = binding.orderButton
-        recyclerView= binding.recyclerView
+        recyclerView = binding.recyclerView
 
         val gridLayoutManager = GridLayoutManager(context,1)
 

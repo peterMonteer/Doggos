@@ -1,5 +1,6 @@
 package com.pedro.doggos.feature_home.data.remote.dto
 
+import com.pedro.doggos.core.data.remote.dto.BreedDto
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 
 data class BreedImageDto(

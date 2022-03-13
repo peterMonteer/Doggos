@@ -8,6 +8,7 @@ import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 import com.pedro.doggos.feature_home.domain.use_case.GetBreedImages
+import com.pedro.doggos.feature_search.domain.use_case.GetBreedsSearch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -47,11 +48,6 @@ class HomeViewModel @Inject constructor(
             .addTo(compositeDisposable)
 
         previousOrderQuery = query
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
     }
 
     private fun onSuccess(list: PagingData<BreedImage>){

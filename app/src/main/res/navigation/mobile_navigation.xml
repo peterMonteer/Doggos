@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.pedro.doggos.ui.dashboard.SearchFragment"
+        android:name="com.pedro.doggos.feature_search.presentation.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 
