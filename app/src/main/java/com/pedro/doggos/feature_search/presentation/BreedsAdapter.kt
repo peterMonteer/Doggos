@@ -8,21 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pedro.doggos.R
 import com.pedro.doggos.core.domain.model.Breed
 
-class BreedsAdapter: RecyclerView.Adapter<BreedsAdapter.ViewHolder>() {
+class BreedsAdapter(private val onClick: (Breed) -> Unit): RecyclerView.Adapter<BreedsAdapter.ViewHolder>() {
 
     private var breedList: MutableList<Breed> = mutableListOf()
 
-    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name_text_view)
         val group: TextView = view.findViewById(R.id.group_text_view)
         val origin: TextView = view.findViewById(R.id.origin_text_view)
 
         init {
-            view.setOnClickListener(this)
+            view.setOnClickListener {
+                onClick(breedList[bindingAdapterPosition])
+            }
         }
 
-        override fun onClick(v: View) {
-        }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BreedsAdapter.ViewHolder {

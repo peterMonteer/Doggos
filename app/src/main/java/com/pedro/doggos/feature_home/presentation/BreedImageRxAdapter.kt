@@ -9,20 +9,22 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pedro.doggos.R
+import com.pedro.doggos.core.domain.model.Breed
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 import com.squareup.picasso.Picasso
 
-class BreedImageRxAdapter: PagingDataAdapter<BreedImage, BreedImageRxAdapter.ViewHolder>(COMPARATOR) {
+class BreedImageRxAdapter(private val onClick: (Breed) -> Unit): PagingDataAdapter<BreedImage, BreedImageRxAdapter.ViewHolder>(COMPARATOR) {
 
-    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListener{
+    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val breedImage: ImageView = view.findViewById(R.id.breed_image)
         val breedName: TextView = view.findViewById(R.id.breed_text)
 
         init {
-            view.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View) {
+            view.setOnClickListener {
+                getItem(bindingAdapterPosition)?.breeds?.first()?.let {
+                    onClick(it)
+                }
+            }
         }
     }
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BreedImageRxAdapter.ViewHolder {

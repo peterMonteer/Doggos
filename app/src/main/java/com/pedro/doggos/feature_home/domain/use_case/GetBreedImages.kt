@@ -2,15 +2,18 @@ package com.pedro.doggos.feature_home.domain.use_case
 
 import androidx.paging.PagingData
 import androidx.paging.filter
+import androidx.paging.rxjava2.cachedIn
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 import com.pedro.doggos.feature_home.domain.repository.BreedImagesRepository
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import kotlinx.coroutines.CoroutineScope
 
 class GetBreedImages (private val repository: BreedImagesRepository) {
 
-    operator fun invoke(order: String = "RANDOM"): Observable<PagingData<BreedImage>> {
+    operator fun invoke(order: String, scope: CoroutineScope): Observable<PagingData<BreedImage>> {
         return repository.getBreedImages(order)
+            .cachedIn(scope)
             .map { data ->
                 data.filter { it.breeds.isNotEmpty() }
             }

@@ -1,14 +1,19 @@
 package com.pedro.doggos.feature_home.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.pedro.doggos.core.domain.model.Breed
 import com.pedro.doggos.databinding.FragmentHomeBinding
+import com.pedro.doggos.feature_detail.presentation.*
 import com.pedro.doggos.feature_home.domain.model.BreedImage
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
@@ -51,14 +56,14 @@ class HomeFragment : Fragment() {
         }
 
         //TODO: INJECT THIS
-        val rxAdapter = BreedImageRxAdapter()
+        val rxAdapter = BreedImageRxAdapter(::adapterItemOnClick)
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = rxAdapter
-        viewModel
-            .breedImageList.observe(viewLifecycleOwner) {
-                rxAdapter.submitData(lifecycle,it)
+
+        viewModel.breedImageList.observe(viewLifecycleOwner) {
+                rxAdapter.submitData(lifecycle, it)
             }
 
         observeViewStates()
@@ -78,5 +83,16 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun adapterItemOnClick(breed: Breed) {
+        startActivity(
+            Intent(context, BreedDetailActivity::class.java).apply {
+                putExtra(NAME, breed.name)
+                putExtra(ORIGIN, breed.origin)
+                putExtra(GROUP, breed.breedGroup)
+                putExtra(TEMPERAMENT, breed.temperament)
+            }
+        )
     }
 }

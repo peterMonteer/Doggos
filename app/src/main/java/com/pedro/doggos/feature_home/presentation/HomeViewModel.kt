@@ -3,7 +3,9 @@ package com.pedro.doggos.feature_home.presentation
 import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.feature_home.domain.model.BreedImage
@@ -41,7 +43,7 @@ class HomeViewModel @Inject constructor(
             val newQueryPosition = if (position + 1 > 2) 0 else position + 1
             orderQueryList[newQueryPosition]
         }
-        getBreedImages(query)
+        getBreedImages(query, viewModelScope)
             .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onSuccess, ::onError)
