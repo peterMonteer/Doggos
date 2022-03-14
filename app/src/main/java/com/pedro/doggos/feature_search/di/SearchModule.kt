@@ -2,6 +2,8 @@ package com.pedro.doggos.feature_search.di
 
 import com.pedro.doggos.core.data.remote.ApiManager
 import com.pedro.doggos.core.data.remote.di.NetworkModule
+import com.pedro.doggos.core.util.AppSchedulerProvider
+import com.pedro.doggos.core.util.SchedulerProvider
 import com.pedro.doggos.feature_search.data.repository.BreedsRepositoryImpl
 import com.pedro.doggos.feature_search.domain.repository.BreedsRepository
 import com.pedro.doggos.feature_search.domain.use_case.GetBreedsSearchUseCase
@@ -25,5 +27,11 @@ object SearchModule {
     @Singleton
     fun providesBreedsRepository(remote: ApiManager): BreedsRepository {
         return BreedsRepositoryImpl(remote = remote)
+    }
+
+    @Provides
+    @Singleton
+    fun providesScheduler() : SchedulerProvider {
+        return AppSchedulerProvider()
     }
 }

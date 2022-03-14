@@ -1,20 +1,19 @@
 package com.pedro.doggos.feature_search.presentation
 
-import android.os.AsyncTask
-import android.util.Log
 import com.pedro.doggos.core.domain.model.Breed
 import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
+import com.pedro.doggos.core.util.SchedulerProvider
 import com.pedro.doggos.feature_search.domain.use_case.GetBreedsSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getBreedsSearchUseCase: GetBreedsSearchUseCase
+    private val getBreedsSearchUseCase: GetBreedsSearchUseCase,
+    private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     sealed class State: UIState {
@@ -23,8 +22,8 @@ class SearchViewModel @Inject constructor(
 
     fun searchBreeds(searchQuery: String) {
         getBreedsSearchUseCase(searchQuery)
-            .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(schedulerProvider.asyncTaskScheduler)
+            .observeOn(schedulerProvider.uiScheduler)
             .subscribe(::onSuccess, ::onError)
             .addTo(compositeDisposable)
     }
@@ -34,6 +33,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        Log.d("Error", "Error")
+        val message = if (throwable is IOException) "A problem occurred please check your internet connection" else "An error occurred"
+        state.value = UIState.ErrorState(message)
     }
 }

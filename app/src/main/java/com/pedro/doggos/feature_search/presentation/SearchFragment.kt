@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedro.doggos.core.domain.model.Breed
+import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.databinding.FragmentSearchBinding
 import com.pedro.doggos.feature_detail.presentation.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +71,13 @@ class SearchFragment : Fragment() {
             when (viewState) {
                 is SearchViewModel.State.SearchBreedsSuccess -> {
                     breedsAdapter.setData(viewState.list)
+                }
+                is UIState.ErrorState -> {
+                    Toast.makeText(
+                        context,
+                        viewState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

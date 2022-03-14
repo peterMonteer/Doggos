@@ -1,7 +1,6 @@
 package com.pedro.doggos.feature_home.presentation
 
 import android.os.AsyncTask
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -28,10 +27,6 @@ class HomeViewModel @Inject constructor(
     private var previousOrderQuery = ""
 
     var breedImageList: MutableLiveData<PagingData<BreedImage>> = MutableLiveData()
-
-    init {
-        getImages()
-    }
 
     fun getImages() {
         val query = if (previousOrderQuery.isEmpty()) {

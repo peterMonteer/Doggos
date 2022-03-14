@@ -22,7 +22,6 @@ class BreedsAdapter(private val onClick: (Breed) -> Unit): RecyclerView.Adapter<
                 onClick(breedList[bindingAdapterPosition])
             }
         }
-
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BreedsAdapter.ViewHolder {

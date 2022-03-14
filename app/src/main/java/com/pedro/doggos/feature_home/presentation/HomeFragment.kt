@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private var adapter: BreedImageRxAdapter = BreedImageRxAdapter(::adapterItemOnClick)
     private val disposable = CompositeDisposable()
 
     private val binding get() = _binding!!
@@ -59,20 +60,16 @@ class HomeFragment : Fragment() {
             gridLayoutManager.spanCount = if (gridLayoutManager.spanCount == 1) 2 else 1
         }
 
-        //TODO: INJECT THIS
-        val rxAdapter = BreedImageRxAdapter(::adapterItemOnClick)
-
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = gridLayoutManager
-        recyclerView.adapter = rxAdapter
-
+        recyclerView.adapter = adapter
         viewModel.breedImageList.observe(viewLifecycleOwner) {
-                rxAdapter.submitData(lifecycle, it)
-            }
+            adapter.submitData(lifecycle, it)
+        }
 
         lifecycleScope.launch {
-            rxAdapter.loadStateFlow.collect { loadState ->
-                val isListEmpty = loadState.refresh is LoadState.NotLoading && rxAdapter.itemCount == 0
+            adapter.loadStateFlow.collect { loadState ->
+                val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 recyclerView.isVisible = !isListEmpty
 
@@ -93,12 +90,17 @@ class HomeFragment : Fragment() {
         }
 
         orderButton.setOnClickListener {
-            rxAdapter.submitData(lifecycle, PagingData.empty())
+            adapter.submitData(lifecycle, PagingData.empty())
             viewModel.getImages()
         }
 
         observeViewStates()
         return root
+    }
+
+    override fun onResume() {
+        viewModel.getImages()
+        super.onResume()
     }
 
     override fun onDestroyView() {

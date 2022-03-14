@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +21,7 @@ class BreedImageRxAdapter(private val onClick: (Breed) -> Unit): PagingDataAdapt
 
         init {
             view.setOnClickListener {
-                getItem(bindingAdapterPosition)?.breeds?.first()?.let {
+                getItem(bindingAdapterPosition)?.breed?.let {
                     onClick(it)
                 }
             }
@@ -37,7 +36,7 @@ class BreedImageRxAdapter(private val onClick: (Breed) -> Unit): PagingDataAdapt
 
     override fun onBindViewHolder(holder: BreedImageRxAdapter.ViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.breedName.text = it.breeds[0].name
+            holder.breedName.text = it.breed.name
             Picasso.get().load(it.url).into(holder.breedImage)
         }
     }

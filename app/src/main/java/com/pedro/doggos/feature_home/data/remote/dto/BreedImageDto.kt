@@ -10,7 +10,7 @@ data class BreedImageDto(
 ) {
     fun toBreedImage(): BreedImage {
         return BreedImage(
-            breeds = breeds.map { it.toBreed() },
+            breed = breeds[0].toBreed(),
             id = id,
             url = url
         )

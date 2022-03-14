@@ -13,8 +13,5 @@ class GetBreedImagesUseCase (private val repository: BreedImagesRepository) {
     operator fun invoke(order: String, scope: CoroutineScope): Observable<PagingData<BreedImage>> {
         return repository.getBreedImages(order)
             .cachedIn(scope)
-            .map { data ->
-                data.filter { it.breeds.isNotEmpty() }
-            }
     }
 }

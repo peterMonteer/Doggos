@@ -2,6 +2,7 @@ package com.pedro.doggos.feature_home.data
 
 import android.util.Log
 import androidx.paging.PagingState
+import androidx.paging.filter
 import androidx.paging.rxjava2.RxPagingSource
 import com.pedro.doggos.feature_home.data.remote.service.BreedImagesService
 import com.pedro.doggos.feature_home.domain.model.BreedImage
@@ -23,7 +24,11 @@ class BreedImagesPagingSource (
             .subscribeOn(Schedulers.io())
             .map { response ->
                 toLoadResult(
-                    data = response.body().orEmpty().map { it.toBreedImage() },
+                    data = response
+                        .body()
+                        .orEmpty()
+                        .filter { it.breeds.isNotEmpty() }
+                        .map { it.toBreedImage() },
                     position = position,
                     totalPages = response.headers()[PAGINATION_COUNT_HEADER]?.toInt())
             }
