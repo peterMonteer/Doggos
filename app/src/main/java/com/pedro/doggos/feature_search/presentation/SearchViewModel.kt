@@ -5,7 +5,7 @@ import android.util.Log
 import com.pedro.doggos.core.domain.model.Breed
 import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
-import com.pedro.doggos.feature_search.domain.use_case.GetBreedsSearch
+import com.pedro.doggos.feature_search.domain.use_case.GetBreedsSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getBreedsSearch: GetBreedsSearch
+    private val getBreedsSearchUseCase: GetBreedsSearchUseCase
 ) : BaseViewModel() {
 
     sealed class State: UIState {
@@ -22,7 +22,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchBreeds(searchQuery: String) {
-        getBreedsSearch(searchQuery)
+        getBreedsSearchUseCase(searchQuery)
             .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onSuccess, ::onError)

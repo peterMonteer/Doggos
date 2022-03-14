@@ -84,7 +84,7 @@ class SearchFragment : Fragment() {
             Intent(context, BreedDetailActivity::class.java).apply {
                 putExtra(NAME, breed.name)
                 putExtra(ORIGIN, breed.origin)
-                putExtra(GROUP, breed.breedGroup)
+                putExtra(GROUP, breed.group)
                 putExtra(TEMPERAMENT, breed.temperament)
             }
         )

@@ -1,5 +1,6 @@
 package com.pedro.doggos.feature_home.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -21,7 +22,6 @@ class BreedImagesRepositoryImpl (private val remote: ApiManager): BreedImagesRep
             ),
             pagingSourceFactory = { BreedImagesPagingSource(remote.getBreedImageService(), order) }
         )
-
         return pager.observable
     }
 }

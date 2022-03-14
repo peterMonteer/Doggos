@@ -35,7 +35,7 @@ class BreedsAdapter(private val onClick: (Breed) -> Unit): RecyclerView.Adapter<
     override fun onBindViewHolder(holder: BreedsAdapter.ViewHolder, position: Int) {
         if (breedList.isNotEmpty()){
             holder.name.text = breedList[position].name
-            holder.group.text = breedList[position].breedGroup
+            holder.group.text = breedList[position].group
             holder.origin.text = breedList[position].origin
         }
     }

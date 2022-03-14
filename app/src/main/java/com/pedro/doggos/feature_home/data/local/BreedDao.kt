@@ -1,5 +1,6 @@
 package com.pedro.doggos.feature_home.data.local
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,11 +11,11 @@ import com.pedro.doggos.feature_home.data.local.entity.BreedEntity
 interface BreedDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBreedEntity(breeds: List<BreedEntity>)
+    fun insertBreedEntity(breeds: List<BreedEntity>)
 
     @Query("DELETE FROM breed WHERE id IN(:ids)")
-    suspend fun deleteBreeds(ids: List<String>)
+    fun deleteBreeds(ids: List<String>)
 
     @Query("SELECT * FROM breed")
-    suspend fun getBreeds(): List<BreedEntity>
+    fun getBreeds(): PagingSource<Int,BreedEntity>
 }

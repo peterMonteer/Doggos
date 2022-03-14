@@ -5,12 +5,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.feature_home.domain.model.BreedImage
-import com.pedro.doggos.feature_home.domain.use_case.GetBreedImages
-import com.pedro.doggos.feature_search.domain.use_case.GetBreedsSearch
+import com.pedro.doggos.feature_home.domain.use_case.GetBreedImagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -19,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getBreedImages: GetBreedImages
+    private val getBreedImagesUseCase: GetBreedImagesUseCase
 ) : BaseViewModel() {
 
     sealed class State: UIState {
@@ -43,7 +41,7 @@ class HomeViewModel @Inject constructor(
             val newQueryPosition = if (position + 1 > 2) 0 else position + 1
             orderQueryList[newQueryPosition]
         }
-        getBreedImages(query, viewModelScope)
+        getBreedImagesUseCase(query, viewModelScope)
             .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onSuccess, ::onError)
@@ -58,6 +56,5 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        Log.d("Error", "Error")
     }
 }

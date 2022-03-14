@@ -1,5 +1,6 @@
 package com.pedro.doggos.feature_home.data
 
+import android.util.Log
 import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxPagingSource
 import com.pedro.doggos.feature_home.data.remote.service.BreedImagesService
@@ -26,6 +27,10 @@ class BreedImagesPagingSource (
                     position = position,
                     totalPages = response.headers()[PAGINATION_COUNT_HEADER]?.toInt())
             }
+            .onErrorReturn {
+                LoadResult.Error(it)
+            }
+
     }
 
     private fun toLoadResult(data: List<BreedImage>, position: Int, totalPages: Int?): LoadResult<Int, BreedImage> {

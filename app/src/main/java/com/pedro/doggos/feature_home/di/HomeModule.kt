@@ -4,7 +4,7 @@ import com.pedro.doggos.core.data.remote.ApiManager
 import com.pedro.doggos.core.data.remote.di.NetworkModule
 import com.pedro.doggos.feature_home.data.repository.BreedImagesRepositoryImpl
 import com.pedro.doggos.feature_home.domain.repository.BreedImagesRepository
-import com.pedro.doggos.feature_home.domain.use_case.GetBreedImages
+import com.pedro.doggos.feature_home.domain.use_case.GetBreedImagesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +17,8 @@ object HomeModule {
 
     @Provides
     @Singleton
-    fun providesGetBreedImageUseCase(repository: BreedImagesRepository): GetBreedImages {
-        return GetBreedImages(repository)
+    fun providesGetBreedImageUseCase(repository: BreedImagesRepository): GetBreedImagesUseCase {
+        return GetBreedImagesUseCase(repository)
     }
 
     @Provides

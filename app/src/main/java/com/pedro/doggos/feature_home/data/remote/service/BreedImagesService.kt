@@ -19,5 +19,4 @@ interface BreedImagesService {
     fun getBreedImages(@Query("order") order: String,
                        @Query("limit") limit: Int = 20,
                        @Query("page") page: Int = 0): Single<Response<List<BreedImageDto>>>
-
 }
