@@ -99,7 +99,9 @@ class HomeFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewModel.getImages()
+        if (adapter.itemCount == 0) {
+            viewModel.getImages()
+        }
         super.onResume()
     }
 

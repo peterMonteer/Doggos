@@ -30,10 +30,13 @@ class BreedDetailActivity : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
+            val origin = bundle.getString(ORIGIN)
+            val group =  bundle.getString(GROUP)
+            val temperament =  bundle.getString(TEMPERAMENT)
             nameTextView.text = bundle.getString(NAME)
-            groupTextView.text = bundle.getString(GROUP)
-            originTextView.text = bundle.getString(ORIGIN)
-            temperamentTextView.text = bundle.getString(TEMPERAMENT)
+            groupTextView.text = if (group.isNullOrEmpty()) "Not available" else group
+            originTextView.text = if (origin.isNullOrEmpty()) "Not available" else origin
+            temperamentTextView.text = if (temperament.isNullOrEmpty()) "Not available" else temperament
         }
     }
 }
