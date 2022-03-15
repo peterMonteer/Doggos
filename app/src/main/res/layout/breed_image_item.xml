@@ -10,7 +10,6 @@
         android:id="@+id/breed_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="8dp"
         android:contentDescription="@string/dog_breed_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

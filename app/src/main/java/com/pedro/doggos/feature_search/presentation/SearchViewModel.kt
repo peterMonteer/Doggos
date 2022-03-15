@@ -29,7 +29,11 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSuccess(list: List<Breed>){
-        state.value = State.SearchBreedsSuccess(list)
+        if (list.isEmpty()) {
+            state.value = UIState.ErrorState("Your search returned 0 results")
+        } else {
+            state.value = State.SearchBreedsSuccess(list)
+        }
     }
 
     private fun onError(throwable: Throwable) {

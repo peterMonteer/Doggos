@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.R
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +41,7 @@ class SearchFragment : Fragment() {
         val root: View = binding.root
 
         val searchView: SearchView = binding.searchView
+        val clearButton: ImageView = searchView.findViewById(R.id.search_close_btn)
         val recyclerView = binding.searchResultsRecyclerView
         breedsAdapter = BreedsAdapter(::adapterItemOnClick)
 
@@ -57,6 +60,11 @@ class SearchFragment : Fragment() {
             }
         )
 
+        clearButton.setOnClickListener {
+            breedsAdapter.setData(listOf())
+            searchView.setQuery("", false)
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = breedsAdapter
         observeViewStates()
@@ -70,6 +78,7 @@ class SearchFragment : Fragment() {
                     breedsAdapter.setData(viewState.list)
                 }
                 is UIState.ErrorState -> {
+                    breedsAdapter.setData(listOf())
                     Toast.makeText(
                         context,
                         viewState.message,

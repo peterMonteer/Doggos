@@ -5,14 +5,14 @@ import com.pedro.doggos.feature_home.domain.model.BreedImage
 
 data class BreedImageDto(
     val breeds: List<BreedDto>,
-    val id: String,
     val url: String,
+    val id: String
 ) {
     fun toBreedImage(): BreedImage {
         return BreedImage(
-            breed = breeds[0].toBreed(),
-            id = id,
-            url = url
+            breed = breeds.first().toBreed(),
+            url = url,
+            id = id
         )
     }
 }
