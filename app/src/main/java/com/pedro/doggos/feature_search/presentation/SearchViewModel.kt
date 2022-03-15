@@ -22,7 +22,7 @@ class SearchViewModel @Inject constructor(
 
     fun searchBreeds(searchQuery: String) {
         getBreedsSearchUseCase(searchQuery)
-            .subscribeOn(schedulerProvider.asyncTaskScheduler)
+            .subscribeOn(schedulerProvider.ioScheduler)
             .observeOn(schedulerProvider.uiScheduler)
             .subscribe(::onSuccess, ::onError)
             .addTo(compositeDisposable)

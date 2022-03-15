@@ -42,9 +42,6 @@ class SearchFragment : Fragment() {
         val recyclerView = binding.searchResultsRecyclerView
         breedsAdapter = BreedsAdapter(::adapterItemOnClick)
 
-
-        //TODO: Extract query text listener
-
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String?): Boolean {

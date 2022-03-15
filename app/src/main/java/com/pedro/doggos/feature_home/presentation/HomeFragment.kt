@@ -112,9 +112,12 @@ class HomeFragment : Fragment() {
     private fun observeViewStates() {
         viewModel.state.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
-                is HomeViewModel.State.GetImagesSuccess -> {
-                }
-                is UIState.LoadingState -> {
+                is UIState.ErrorState -> {
+                    Toast.makeText(
+                        context,
+                        viewState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

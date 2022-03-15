@@ -13,7 +13,6 @@ const val GROUP = "GROUP"
 const val ORIGIN = "ORIGIN"
 const val TEMPERAMENT = "TEMPERAMENT"
 
-
 class BreedDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBreedDetailBinding

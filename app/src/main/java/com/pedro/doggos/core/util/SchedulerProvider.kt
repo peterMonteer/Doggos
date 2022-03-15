@@ -4,6 +4,6 @@ import io.reactivex.Scheduler
 
 interface SchedulerProvider {
 
-    val asyncTaskScheduler: Scheduler
+    val ioScheduler: Scheduler
     val uiScheduler: Scheduler
 }

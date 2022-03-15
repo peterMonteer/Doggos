@@ -7,6 +7,6 @@ class TestSchedulerProvider: SchedulerProvider {
 
     val testScheduler: TestScheduler = TestScheduler()
 
-    override val asyncTaskScheduler = testScheduler
+    override val ioScheduler = testScheduler
     override val uiScheduler = testScheduler
 }
