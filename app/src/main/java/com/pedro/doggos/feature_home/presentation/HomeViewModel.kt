@@ -10,6 +10,7 @@ import com.pedro.doggos.feature_home.domain.model.BreedImage
 import com.pedro.doggos.feature_home.domain.use_case.GetBreedImagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxkotlin.addTo
+import java.io.Console
 import java.io.IOException
 import javax.inject.Inject
 

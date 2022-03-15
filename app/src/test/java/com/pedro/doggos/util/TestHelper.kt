@@ -3,7 +3,6 @@ package com.pedro.doggos.util
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
-import java.util.concurrent.ThreadLocalRandom
 import kotlin.random.Random
 
 fun createHttpException(): HttpException {
@@ -18,8 +17,4 @@ fun randomString(): String {
         .asSequence()
         .map(source::get)
         .joinToString("")
-}
-
-fun randomInt(): Int {
-    return ThreadLocalRandom.current().nextInt(0, 1001)
 }

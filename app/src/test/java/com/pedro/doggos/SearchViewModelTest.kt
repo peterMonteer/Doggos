@@ -99,8 +99,6 @@ class SearchViewModelTest {
 
     @Test
     fun searchQueryReturnFromRemoteErrorAndViewModelStateChangesToErrorState() {
-
-
         Mockito.`when`(repository
             .getBreedsSearchFromRemote(any()))
             .thenReturn(Single.error(httpException))
