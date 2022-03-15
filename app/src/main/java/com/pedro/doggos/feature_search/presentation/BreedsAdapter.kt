@@ -32,10 +32,12 @@ class BreedsAdapter(private val onClick: (Breed) -> Unit): RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: BreedsAdapter.ViewHolder, position: Int) {
-        if (breedList.isNotEmpty()){
+        if (breedList.isNotEmpty()) {
+            val origin = breedList[position].origin
+            val group =  breedList[position].group
             holder.name.text = breedList[position].name
-            holder.group.text = breedList[position].group
-            holder.origin.text = breedList[position].origin
+            holder.group.text = if (group.isNullOrEmpty()) "Not available" else group
+            holder.origin.text = if (origin.isNullOrEmpty()) "Not available" else origin
         }
     }
 

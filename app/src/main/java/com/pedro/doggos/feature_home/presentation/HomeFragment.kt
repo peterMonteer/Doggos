@@ -70,7 +70,8 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
                 val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                val isListLoading = loadState.source.append is LoadState.Loading && adapter.itemCount == 0
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading || isListLoading
                 recyclerView.isVisible = !isListEmpty
 
                 val errorState = loadState.source.append as? LoadState.Error
