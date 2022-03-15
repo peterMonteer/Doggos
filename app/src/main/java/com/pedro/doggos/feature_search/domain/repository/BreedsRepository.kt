@@ -4,5 +4,6 @@ import com.pedro.doggos.core.domain.model.Breed
 import io.reactivex.Single
 
 interface BreedsRepository {
-    fun getBreedsSearch(searchQuery: String): Single<List<Breed>>
+    fun getBreedsSearchFromRemote(searchQuery: String): Single<List<Breed>>
+    fun getBreedsSearchFromLocalStorage(searchQuery: String): Single<List<Breed>>
 }

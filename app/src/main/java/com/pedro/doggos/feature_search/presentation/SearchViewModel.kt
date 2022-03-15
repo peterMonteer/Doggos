@@ -1,5 +1,6 @@
 package com.pedro.doggos.feature_search.presentation
 
+import android.util.Log
 import com.pedro.doggos.core.domain.model.Breed
 import com.pedro.doggos.core.presentation.BaseViewModel
 import com.pedro.doggos.core.presentation.UIState
@@ -20,7 +21,10 @@ class SearchViewModel @Inject constructor(
         class SearchBreedsSuccess(val list: List<Breed>) : State()
     }
 
+    private lateinit var _searchQuery: String
+
     fun searchBreeds(searchQuery: String) {
+        _searchQuery = searchQuery
         getBreedsSearchUseCase(searchQuery)
             .subscribeOn(schedulerProvider.ioScheduler)
             .observeOn(schedulerProvider.uiScheduler)
@@ -37,7 +41,26 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        val message = if (throwable is IOException) "A problem occurred please check your internet connection" else "An error occurred"
+        val message = if (throwable is IOException) "Your results may be incomplete, please check your internet connection" else "An error occurred"
+        if (throwable is IOException) {
+            searchBreedsInLocalStorage()
+        }
         state.value = UIState.ErrorState(message)
+    }
+
+    private fun onLocalStorageError(throwable: Throwable) {
+        state.value = UIState.ErrorState("An error occurred")
+    }
+
+    private fun searchBreedsInLocalStorage() {
+        getBreedsSearchUseCase.getBreedsSearchFromLocalStorage(_searchQuery)
+            .subscribeOn(schedulerProvider.ioScheduler)
+            .observeOn(schedulerProvider.uiScheduler)
+            .subscribe(::onLocalStorageSuccess, ::onLocalStorageError)
+            .addTo(compositeDisposable)
+    }
+
+    private fun onLocalStorageSuccess(list: List<Breed>){
+        state.value = State.SearchBreedsSuccess(list)
     }
 }

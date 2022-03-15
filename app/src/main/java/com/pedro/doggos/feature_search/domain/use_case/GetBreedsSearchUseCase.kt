@@ -7,6 +7,10 @@ import io.reactivex.Single
 class GetBreedsSearchUseCase (private val repository: BreedsRepository) {
 
     operator fun invoke(searchQuery: String): Single<List<Breed>> {
-        return repository.getBreedsSearch(searchQuery)
+        return repository.getBreedsSearchFromRemote(searchQuery)
+    }
+
+    fun getBreedsSearchFromLocalStorage(searchQuery: String): Single<List<Breed>> {
+        return repository.getBreedsSearchFromLocalStorage(searchQuery)
     }
 }

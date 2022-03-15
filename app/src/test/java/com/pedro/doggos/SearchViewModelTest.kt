@@ -2,6 +2,7 @@ package com.pedro.doggos
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.whenever
 import com.pedro.doggos.core.domain.model.Breed
 import com.pedro.doggos.core.presentation.UIState
 import com.pedro.doggos.feature_search.domain.repository.BreedsRepository
@@ -17,6 +18,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
+import java.io.IOException
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
@@ -32,12 +35,14 @@ class SearchViewModelTest {
     private lateinit var searchViewModel: SearchViewModel
     private var testScheduler = TestSchedulerProvider()
 
-    private val breedExample = Breed(
+    private val httpException = createHttpException()
+
+    private val breedExampleList = listOf(Breed(
         name = "Cocker",
         origin = "Portugal",
         temperament = "Such fun",
         group = "No groups"
-    )
+    ))
 
     @Before
     fun setUpViewModel(){
@@ -48,10 +53,10 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun searchQueryAndViewModelStateChangeToSuccessState() {
+    fun searchQueryReturnFromRemoteSuccessViewModelStateChangeToSuccessState() {
         Mockito.`when`(repository
-            .getBreedsSearch(any()))
-            .thenReturn(Single.just(listOf(breedExample)))
+            .getBreedsSearchFromRemote(any()))
+            .thenReturn(Single.just(breedExampleList))
 
         searchViewModel.searchBreeds("something")
         testScheduler.testScheduler.triggerActions()
@@ -59,11 +64,45 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun searchErrorAndViewModelStateChangesToErrorState() {
-        val httpException = createHttpException()
+    fun offlineSearchQueryReturnSuccessViewModelStateChangeToSuccessState() {
+        whenever(repository
+            .getBreedsSearchFromRemote(any()))
+            .thenReturn(Single.error(IOException()))
 
         Mockito.`when`(repository
-            .getBreedsSearch(any()))
+            .getBreedsSearchFromLocalStorage(any()))
+            .thenReturn(Single.just(breedExampleList))
+
+        searchViewModel.searchBreeds("something")
+        testScheduler.testScheduler.triggerActions()
+
+        val state = searchViewModel.state.value as SearchViewModel.State.SearchBreedsSuccess
+        assertEquals(breedExampleList, state.list)
+    }
+
+    @Test
+    fun offlineSearchQueryReturnEmptyViewModelStateChangeToSuccessState() {
+        whenever(repository
+            .getBreedsSearchFromRemote(any()))
+            .thenReturn(Single.error(IOException()))
+
+        Mockito.`when`(repository
+            .getBreedsSearchFromLocalStorage(any()))
+            .thenReturn(Single.just(listOf()))
+
+        searchViewModel.searchBreeds("something")
+        testScheduler.testScheduler.triggerActions()
+
+        val state = searchViewModel.state.value as SearchViewModel.State.SearchBreedsSuccess
+        assertTrue(state.list.isEmpty())
+    }
+
+    @Test
+    fun searchQueryReturnFromRemoteErrorAndViewModelStateChangesToErrorState() {
+
+
+        Mockito.`when`(repository
+            .getBreedsSearchFromRemote(any()))
             .thenReturn(Single.error(httpException))
 
         searchViewModel.searchBreeds("something")
