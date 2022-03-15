@@ -33,14 +33,14 @@ api_key="your_api_key_here"
 - Error handling:
   A toast is displayed with some basic information in case some of the ViewModel functions returns an error.
   
-Offline functionality:
-Use a room database as the single source of truth
-TODO:
- - Replace RxPagingSource with RxRemoteMediator (feature_home)
- - Apply a caching strategy for search feature
+- Offline functionality:
+  Use a room database as the single source of truth
+  TODO:
+   - Replace RxPagingSource with RxRemoteMediator (feature_home)
+   - Apply a caching strategy for search feature
 
 - Unit test coverage:
- Contains unit tests for the ViewModels and Model transformations
+  Contains unit tests for the ViewModels and Model transformations
 
 
 ## :bulb: Technologies used
